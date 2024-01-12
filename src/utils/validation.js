@@ -18,9 +18,9 @@ export const signUpSchema = Yup.object({
     ),
 });
 
-// export const signInSchema = Yup.object({
-//   email: Yup.string()
-//     .required("Email address is required.")
-//     .email("Invalid email address."),
-//   password: Yup.string().required("Password is required."),
-// });
+export const signInSchema = Yup.object({
+  email: Yup.string()
+    .required("Email address is required.")
+    .email("Invalid email address."),
+  password: Yup.string().required("Password is required."),
+});
