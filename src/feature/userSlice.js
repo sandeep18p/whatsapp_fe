@@ -64,6 +64,7 @@ export const userSlice = createSlice({
     }
   },
   extraReducers(builder) {
+    //for register user
     builder.addCase(registerUser.pending, (state) => {
       state.status = "loading";
     })
@@ -76,6 +77,7 @@ export const userSlice = createSlice({
         // Corrected the error assignment
         state.error = action.payload;
       })
+      //for login user
       .addCase(loginUser.pending, (state, action) => {
         state.status = "loading";
       })
