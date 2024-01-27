@@ -16,6 +16,7 @@ export default function Search({searchLength, setSearchResults}) {
       }
      });
      setSearchResults(data);
+   
     }catch(error){
      console.log(error.response.data.error.message);
     }
@@ -34,7 +35,7 @@ export default function Search({searchLength, setSearchResults}) {
             {show || searchLength > 0 ? (
               <span
                 className="w-8 flex items-center justify-center rotateAnimation cursor-pointer"
-                // onClick={() => setSearchResults([])}
+                onClick={() => setSearchResults([])}
               >
                 <ReturnIcon className="fill-green_1 w-5" />
               </span>

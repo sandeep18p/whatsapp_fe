@@ -1,9 +1,34 @@
+import { useDispatch, useSelector } from "react-redux";
 import { dateHandler } from "../../../utils/date";
+import { open_create_conversation } from "../../../feature/chatSlice";
+import { getConversationId } from "../../../utils/chat";
+import { capitalize } from "../../../utils/string";
 // import moment from "moment"
 
 export default function Conversation({convo}) {
+  const dispatch= useDispatch();
+  const {user}=useSelector((state)=>state.user);
+  const {activeConversation}=useSelector((state)=>state.chat);
+  const {token}=user;
+  // console.log(convo);
+  const values = {
+    receiver_id: getConversationId(user, convo.users),
+    token,
+  };
+  const openConversation=()=>{
+dispatch(open_create_conversation(values));
+  }
   return (
-    <li className="list-none h-[72px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]">
+
+    <li
+      onClick={() => openConversation()}
+      className={`list-none h-[72px] w-full dark:bg-dark_bg_1 hover:${
+        convo._id !== activeConversation._id ? "dark:bg-dark_bg_2" : ""
+      } cursor-pointer dark:text-dark_text_1 px-[10px] ${
+        convo._id === activeConversation._id ? "dark:bg-dark_hover_1" : ""
+      }`}
+    >
+
   {/*Container */}
   <div className="relative w-full flex items-center justify-between py-[10px]">
         {/*Left*/}
@@ -17,7 +42,8 @@ export default function Conversation({convo}) {
            {/*Conversation name and message*/}
            <div className="w-full flex flex-col">
             {/*Conversation name*/}
-            <h1 className="font-bold flex items-center gap-x-2">{convo.name}</h1>
+            <h1 className="font-bold flex items-center gap-x-2">{capitalize(convo.name)}</h1>
+
             {/* Conversation message */}
             <div>
               <div className="flex items-center gap-x-1 dark:text-dark_text_2">

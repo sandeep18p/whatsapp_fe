@@ -74,6 +74,7 @@ export const sendMessage = createAsyncThunk(
       const { data } = await axios.post(
         MESSAGE_ENDPOINT,
         {
+          //sending this to body video 60, 4:30
           message,
           convo_id,
           files,
@@ -196,6 +197,8 @@ export const chatSlice = createSlice({
         let newConvos = [...state.conversations].filter(
           (c) => c._id !== conversation._id
         );
+        //filtering above all the conversation that are not this conversation
+        //aur niche wala line conversation ko top me daalega jab bhi kisi me message karenge to 
         newConvos.unshift(conversation);
         state.conversations = newConvos;
         state.files = [];
