@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { dateHandler } from "../../../utils/date";
 import { open_create_conversation } from "../../../feature/chatSlice";
-import { getConversationId } from "../../../utils/chat";
+import { getConversationId, getConversationName, getConversationPicture } from "../../../utils/chat";
 import { capitalize } from "../../../utils/string";
+import SocketContext from "../../../context/SocketContext";
+
 // import moment from "moment"
 
-export default function Conversation({convo}) {
+function Conversation({convo, socket}) {
   const dispatch= useDispatch();
   const {user}=useSelector((state)=>state.user);
   const {activeConversation}=useSelector((state)=>state.chat);
@@ -15,8 +17,10 @@ export default function Conversation({convo}) {
     receiver_id: getConversationId(user, convo.users),
     token,
   };
-  const openConversation=()=>{
-dispatch(open_create_conversation(values));
+  const openConversation=async()=>{
+let newConvo= await dispatch(open_create_conversation(values));
+//socket
+socket.emit("join conversation", newConvo.payload._id);
   }
   return (
 
@@ -37,12 +41,13 @@ dispatch(open_create_conversation(values));
          <div
             className="relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden"
           >
-            <img src={convo.picture} alt={convo.name} className="w-full h-full object-cover"/>
+            <img src={getConversationPicture(user,convo.users)} alt="picture"
+            className="w-full h-full object-cover"/>
           </div>
            {/*Conversation name and message*/}
            <div className="w-full flex flex-col">
             {/*Conversation name*/}
-            <h1 className="font-bold flex items-center gap-x-2">{capitalize(convo.name)}</h1>
+            <h1 className="font-bold flex items-center gap-x-2">{capitalize(getConversationName(user,convo.users))}</h1>
 
             {/* Conversation message */}
             <div>
@@ -72,3 +77,11 @@ dispatch(open_create_conversation(values));
      </li>
   )
 }
+
+const ConversationWithContext = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <Conversation {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default ConversationWithContext;
