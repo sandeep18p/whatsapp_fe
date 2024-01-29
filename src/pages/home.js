@@ -3,12 +3,19 @@ import { Sidebar } from '../components/sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import { getConversations } from '../feature/chatSlice';
 import  { ChatContainer, WhatsappHome } from '../components/Chat';
+import SocketContext from '../context/SocketContext';
 
-export default function Home(){
+ function Home({socket}){
+  console.log(socket);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const {activeConversation} = useSelector((state)=>state.chat);
   console.log(" active conversation ",activeConversation)
+
+  //join user into the socket io
+  useEffect(()=>{
+    socket.emit("join", user);
+  },[user]);
   
   //get Conversations
   useEffect(() => {
@@ -33,3 +40,12 @@ export default function Home(){
   )
 }
 
+//Attaching socket to this
+
+const HomeWithSocket = (props) =>(
+  <SocketContext.Consumer>
+    {(socket)=><Home {...props} socket={socket}/>}
+  </SocketContext.Consumer>
+)
+
+export default HomeWithSocket;
