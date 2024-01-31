@@ -185,6 +185,7 @@ export const chatSlice = createSlice({
         state.status = "succeeded";
         state.activeConversation = action.payload;
         state.files = [];
+        //when we open the conversation it will make state file empty video 75 8:45
       })
       .addCase(open_create_conversation.rejected, (state, action) => {
         state.status = "failed";

@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-
 import { ClipLoader } from "react-spinners";
 // import Attachments from './attachments/Attachments';
 import Input from './Input';

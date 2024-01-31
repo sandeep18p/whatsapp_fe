@@ -4,11 +4,15 @@ import ChatMessages from "./messages/ChatMessages";
 import { useEffect } from "react";
 import { getConversationMessages } from "../../feature/chatSlice";
 import ChatActions from "./actions/ChatActions";
+import { checkOnlineStatus, getConversationId } from "../../utils/chat";
+import FilePreview from "./preview/files/FilesPreview.jsx";
 
 
-export default function ChatContainer() {
+
+
+export default function ChatContainer({onlineUsers, typing}) {
     const dispatch = useDispatch();
-  const { activeConversation, messages } = useSelector((state) => state.chat);
+  const { activeConversation, messages,files } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
   const { token } = user;
     const values = {
@@ -26,11 +30,18 @@ export default function ChatContainer() {
      {/*Container*/}
      <div>
         {/*Chat header*/}
-        <ChatHeader/>
+        {/* <ChatHeader online = {onlineUsers.find((u)=>u.userId === getConversationId(user, activeConversation.users) ? true : false )}/> */}
+        
+        <ChatHeader online = {checkOnlineStatus(onlineUsers,user,activeConversation.users)}/>
         {/* Chat messages */}
-        <ChatMessages/>
+        {files.length>0 ? (
+           <FilePreview/>
+        ):(<>
+        <ChatMessages typing={typing} />
         {/* Chat Actions */}
         <ChatActions/>
+        </>)}
+        
     </div>
     </div>
   )

@@ -3,7 +3,7 @@ import { DotsIcon, SearchLargeIcon } from "../../../svg";
 import { capitalize } from "../../../utils/string";
 
 
-export default function ChatHeader() {
+export default function ChatHeader( {online}) {
     const { activeConversation } = useSelector((state) => state.chat);
     const {name, picture} = activeConversation;
     const { user } = useSelector((state) => state.user);
@@ -38,8 +38,7 @@ export default function ChatHeader() {
                   {capitalize(name.split(" ")[0])}
             </h1>
             <span className="text-xs dark:text-dark_svg_2">
-              {/* {online ? "online" : ""} */} 
-              online
+              {online ? "online" : ""} 
             </span>
           </div>
       </div>
