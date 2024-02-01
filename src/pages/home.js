@@ -4,11 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getConversations, updateMessagesAndConversations } from '../feature/chatSlice';
 import  { ChatContainer, WhatsappHome } from '../components/Chat';
 import SocketContext from '../context/SocketContext';
+import Call from '../components/Chat/call/Call';
+
+const callData = {
+  receiveingCall: true,
+  // receiveingCall: false,
+  callEnded: false,
+}
 
  function Home({socket}){
   const [onlineUsers, setOnlineUsers] = useState([]);
   // console.log(socket);
   const dispatch = useDispatch();
+  const [call,setCall]=useState(callData);
+  const {receiveingCall, callEnded}=call;
+  const [callAccepted, setCallAccepted]=useState(false); 
+
   const { user } = useSelector((state) => state.user);
   const {activeConversation} = useSelector((state)=>state.chat);
   //typing
@@ -55,7 +66,7 @@ import SocketContext from '../context/SocketContext';
       socket.on("typing",(conversation)=>setTyping(conversation));
       socket.on("stop typing", ()=>setTyping(false));
   },[])
-  return (
+  return ( <>
     <div className='h-screen dark:bg-dark_bg_1 flex items-center justify-center  oveerflow-hidden'>
     <div className="container h-screen flex py-[19px]">
      {/* <Sidebar/> */}
@@ -66,7 +77,10 @@ import SocketContext from '../context/SocketContext';
             <WhatsappHome />
           )}
     </div>
+  
     </div>
+    <Call call={call} setCall={setCall} callAccepted={callAccepted}/>
+   </>
   )}
 //Attaching socket to this
 const HomeWithSocket = (props) =>(
