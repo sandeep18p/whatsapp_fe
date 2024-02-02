@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Sidebar } from '../components/sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import { getConversations, updateMessagesAndConversations } from '../feature/chatSlice';
@@ -17,8 +17,11 @@ const callData = {
   // console.log(socket);
   const dispatch = useDispatch();
   const [call,setCall]=useState(callData);
+  const [stream, setStream] = useState();
   const {receiveingCall, callEnded}=call;
   const [callAccepted, setCallAccepted]=useState(false); 
+  const myVideo = useRef();
+  const userVideo = useRef();
 
   const { user } = useSelector((state) => state.user);
   const {activeConversation} = useSelector((state)=>state.chat);
@@ -45,6 +48,19 @@ const callData = {
       setOnlineUsers(users);
     });
   }, [user, socket]);
+
+  
+  //call
+  useEffect(()=>{
+    setupMedia();
+  },[]);
+  const setupMedia=()=>{
+    navigator.mediaDevices.getUserMedia({video: true, audio: true}).then((stream)=>{
+      // setStream(stream);
+      // userVideo.current.srcObject=stream;
+    })
+  }
+
   
   //get Conversations
   useEffect(() => {
@@ -79,7 +95,7 @@ const callData = {
     </div>
   
     </div>
-    <Call call={call} setCall={setCall} callAccepted={callAccepted}/>
+    <Call call={call} setCall={setCall} callAccepted={callAccepted} myVideo={myVideo} userVideo={userVideo} stream={stream}/>
    </>
   )}
 //Attaching socket to this

@@ -5,7 +5,7 @@ import CallArea from "./CallArea";
 import Header from "./Header";
 import Ringing from "./Ringing";
 
-export default function Call({call,setCall, callAccepted}) {
+export default function Call({call,setCall, callAccepted, myVideo, userVideo, stream}) {
     const {receiveingCall, callEnded}=call;
     const [showActions,setShowActions]=useState(false);
   return (
@@ -22,8 +22,20 @@ export default function Call({call,setCall, callAccepted}) {
           <CallArea name="Sandeep"/>
           {/*Call actions*/}
         {showActions ?  <CallActions /> : null }
-            </div>  </div>
-    
+            </div> 
+            {/* Videos stream */}
+            
+   <div>
+   {/* user video */}
+   <video ref={userVideo} playsInline muted autoPlay className="largeVideoCall" ></video>
+   <div></div>
+   {/* my video */}
+   <div>
+    <video ref={myVideo} muted autoPlay className={`SmallVideoCall ${showActions ? 'moveVideoCall' : ''}`}></video>
+   </div>
+   </div>
+             </div>
+    {/* Ringing */}
     {receiveingCall && !callAccepted &&(<Ringing call={call} setCall={setCall}/>)}</div>
   )
 }
