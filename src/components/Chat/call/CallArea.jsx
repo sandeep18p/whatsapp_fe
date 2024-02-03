@@ -2,7 +2,7 @@ import { capitalize } from "../../../utils/string";
 // import CallTimes from "./CallTimes";
 
 export default function CallArea({
-  name,
+  name
   // totalSecInCall,
   // setTotalSecInCall,
   // callAccepted,

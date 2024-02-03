@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { CloseIcon} from "../../../svg";
 import ValidIcon from "../../../svg/Valid"
-export default function Ringing({call, setCall}) {
-    const { receiveingCall, callEnded} = call;
+export default function Ringing({call, setCall, answerCall}) {
+    const { receiveingCall, callEnded, name, picture} = call;
     const [timer, setTimer] = useState(0);
     let interval;
     const handleTimer = () => {
@@ -12,7 +12,7 @@ export default function Ringing({call, setCall}) {
     };
     console.log(timer);
     useEffect(() => {
-      if (timer <= 10) {
+      if (timer <= 3) {
         handleTimer();
       } else {
         setCall({ ...call, receiveingCall: false });
@@ -27,13 +27,13 @@ export default function Ringing({call, setCall}) {
         {/*Call infos*/}
         <div className="flex items-center gap-x-2">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
+            src={picture}
             alt={`caller profile picture`}
             className="w-28 h-28 rounded-full"
           />
        <div>
         <h1 className="dark:text-white">
-        <b>Sandeep pansari</b>
+        <b>{name}</b>
         </h1>
         <span className="dark:text-dark_text_2">Whatsapp video...</span>
        </div>
@@ -43,7 +43,7 @@ export default function Ringing({call, setCall}) {
         className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500">
             <CloseIcon className="fill-white w-5" />
         </button></li>
-        <li >
+        <li onClick={answerCall}>
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500">
             <ValidIcon className="fill-white w-6 mt-2" />
             </button>

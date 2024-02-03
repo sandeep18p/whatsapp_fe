@@ -10,9 +10,10 @@ import FilePreview from "./preview/files/FilesPreview.jsx";
 
 
 
-export default function ChatContainer({onlineUsers, typing}) {
+export default function ChatContainer({onlineUsers,callUser, typing}) {
     const dispatch = useDispatch();
   const { activeConversation, messages,files } = useSelector((state) => state.chat);
+
   const { user } = useSelector((state) => state.user);
   const { token } = user;
     const values = {
@@ -32,7 +33,7 @@ export default function ChatContainer({onlineUsers, typing}) {
         {/*Chat header*/}
         {/* <ChatHeader online = {onlineUsers.find((u)=>u.userId === getConversationId(user, activeConversation.users) ? true : false )}/> */}
         
-        <ChatHeader online = {checkOnlineStatus(onlineUsers,user,activeConversation.users)}/>
+        <ChatHeader online = {checkOnlineStatus(onlineUsers,user,activeConversation.users)} callUser={callUser} />
         {/* Chat messages */}
         {files.length>0 ? (
            <FilePreview/>

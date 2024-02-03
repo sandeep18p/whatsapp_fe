@@ -115,7 +115,8 @@ export const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    setActiveConversation: (state, action) => {
+    
+  setActiveConversation: (state, action) => {
       state.activeConversation = action.payload;
     },
     updateMessagesAndConversations: (state, action) => {
@@ -229,8 +230,7 @@ export const chatSlice = createSlice({
 });
 export const {
   setActiveConversation,
-
-  updateMessagesAndConversations,
+ updateMessagesAndConversations,
   addFiles,
   clearFiles,
   removeFileFromFiles,
